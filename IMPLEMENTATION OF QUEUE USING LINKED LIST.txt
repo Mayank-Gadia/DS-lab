@@ -1,81 +1,100 @@
-// C program to demonstrate linked list based implementation of queue
-#include <stdio.h>
-#include <stdlib.h>
- struct Node {                              // A linked list (LL) node to store a queue entry
-      int data;
-    struct Node* next;
-};
-
-struct Queue {                             // The queue, front stores the front node of LL and rear stores the last node of LL
-    struct Node *front, *rear;
-};
-
-struct Node* newNode(int k)               // A utility function to create a new linked list node.
-{
-    struct Node* temp
-        = (struct Node*)malloc(sizeof(struct Node));
-    temp->data = k;
-    temp->next = NULL;
-    return temp;
-}
-
-struct Queue* createQueue()                // A utility function to create an empty queue
-{
-    struct Queue* q
-        = (struct Queue*)malloc(sizeof(struct Queue));
-    q->front = q->rear = NULL;
-    return q;
-}
- 
-void enQueue(struct Queue* q, int k)      // The function to add a key k to q 
-{
-    struct Node* temp = newNode(k);       // Create a new LL node
- 
-    if (q->rear == NULL) {                // If queue is empty, then new node is front and rear both
-        q->front = q->rear = temp;
-        return;
-    }
- 
-    q->rear->next = temp;                 // Add the new node at the end of queue and change rear
-    q->rear = temp;
-}
-
-void deQueue(struct Queue* q)            // Function to remove a key from given queue q
-{
-    if (q->front == NULL)                // If queue is empty, return NULL.
-        return;
- 
-    struct Node* temp = q->front;        // Store previous front and move front one node ahead
- 
-    q->front = q->front->next;
- 
-   
-    if (q->front == NULL)                // If front becomes NULL, then change rear also as NULL
-        q->rear = NULL;
- 
-    free(temp);
-}
- 
-// Main code
-int main()
-{
-    struct Queue* q = createQueue();
-    enQueue(q, 10);
-    enQueue(q, 20);
-    printf("Queue Front :%d \n", q->front->data);
-    printf("Queue Rear : %d\n", q->rear->data);
-    deQueue(q);
-    deQueue(q);
-    enQueue(q, 30);
-    printf("Queue Front :%d \n", q->front->data);
-    printf("Queue Rear : %d\n", q->rear->data);
-    enQueue(q, 40);
-    enQueue(q, 50);
-    deQueue(q);
-    printf("Queue Front :%d \n", q->front->data);
-    printf("Queue Rear : %d\n", q->rear->data);
-return 0;
-}
-
-
-
+#include<stdio.h>   
+#include<stdlib.h>  
+#define maxsize 5  
+void insert();  
+void delete();  
+void display();  
+int front = -1, rear = -1;  
+int queue[maxsize];  
+void main ()  
+{  
+    int choice;   
+    while(choice != 4)   
+    {     
+       printf("\n1.insert an element\n2.Delete an element\n3.Display the queue\n4.Exit\n");  
+        printf("\nEnter your choice ?");  
+        scanf("%d",&choice);  
+        switch(choice)  
+        {  
+            case 1:  
+            insert();  
+            break;  
+            case 2:  
+            delete();  
+            break;  
+            case 3:  
+            display();  
+            break;  
+            case 4:  
+            exit(0);  
+            break;  
+            default:   
+            printf("\nEnter valid choice??\n");  
+        }  
+    }  
+}  
+void insert()  
+{  
+    int item;  
+    printf("\nEnter the element\n");  
+    scanf("\n%d",&item);      
+    if(rear == maxsize-1)  
+    {  
+        printf("\nOVERFLOW\n");  
+        return;  
+    }  
+    if(front == -1 && rear == -1)  
+    {  
+        front = 0;  
+        rear = 0;  
+    }  
+    else   
+    {  
+        rear = rear+1;  
+    }  
+    queue[rear] = item;  
+    printf("\nValue inserted ");  
+      
+}  
+void delete()  
+{  
+    int item;   
+    if (front == -1 || front > rear)  
+    {  
+        printf("\nUNDERFLOW\n");  
+        return;  
+              
+    }  
+    else  
+    {  
+        item = queue[front];  
+        if(front == rear)  
+        {  
+            front = -1;  
+            rear = -1 ;  
+        }  
+        else   
+        {  
+            front = front + 1;  
+        }  
+        printf("\nvalue deleted ");  
+    }  
+      
+      
+}  
+      
+void display()  
+{  
+    int i;  
+    if(rear == -1)  
+    {  
+        printf("\nEmpty queue\n");  
+    }  
+    else  
+    {   printf("\nprinting values .....\n");  
+        for(i=front;i<=rear;i++)  
+        {  
+            printf("\n%d\n",queue[i]);  
+        }     
+    }  
+}  
